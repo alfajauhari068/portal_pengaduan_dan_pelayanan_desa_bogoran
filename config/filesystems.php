@@ -41,6 +41,20 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
+            // ================================================================
+            // URL GENERATION DENGAN HTTPS (Mencegah Mixed Content Warning)
+            // ================================================================
+            // 
+            // PENTING: Pastikan APP_URL di environment production adalah:
+            // APP_URL=https://portalpengaduandanpelayanandesabogoran-production.up.railway.app
+            //
+            // Jika APP_URL tidak di-set atau menggunakan HTTP, file akan dimuat via HTTP
+            // menyebabkan Mixed Content Warning di browser.
+            //
+            // Laravel helper:
+            // - Storage::url('file.jpg') akan menggunakan URL ini
+            // - asset() helper di AppServiceProvider sudah di-force HTTPS
+            //
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,

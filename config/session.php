@@ -167,9 +167,12 @@ return [
     | to the server if the browser has a HTTPS connection. This will keep
     | the cookie from being sent to you when it can't be done securely.
     |
+    | di production, HARUS true untuk mencegah session fixation attack dan mixed content warning
+    | di local/development, boleh false untuk kemudahan testing
+    |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV') === 'production' ? true : false),
 
     /*
     |--------------------------------------------------------------------------

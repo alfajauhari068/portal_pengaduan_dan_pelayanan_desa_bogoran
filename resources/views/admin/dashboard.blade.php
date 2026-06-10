@@ -11,7 +11,7 @@
 <body class="bg-gray-100 min-h-screen text-gray-800">
     <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
         <h1 class="font-bold text-xl text-[#6dc274]">Dashboard Pengaduan Desa</h1>
-        <a href="{{ url('/admin/home') }}"
+        <a href="{{ route('admin.home') }}"
             class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded text-sm font-bold transition">
             Kembali ke Portal Admin
         </a>
