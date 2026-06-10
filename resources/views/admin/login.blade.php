@@ -21,8 +21,10 @@
         </div>
 
         @if($errors->any())
-        <div class="bg-red-500/20 border border-red-500 text-red-200 p-3 rounded-lg mb-4 text-sm text-center">
-            Email atau Password salah!
+        <div class="bg-red-500/20 border border-red-500 text-red-200 p-3 rounded-lg mb-4 text-sm">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
         </div>
         @endif
 

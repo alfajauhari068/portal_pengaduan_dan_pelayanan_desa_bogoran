@@ -33,9 +33,26 @@ class PengaduanController extends Controller
         return back()->with('success', 'Laporan berhasil dikirim ke Admin Desa!');
     }
 
-    // ----------------------------------------------------
-    // PERUBAHAN: FUNGSI BARU UNTUK BERANDA ADMIN
-    // ----------------------------------------------------
+    // ====================================================
+    // AUTENTIKASI - LOGIN & LOGOUT
+    // ====================================================
+
+    /**
+     * Menampilkan halaman login
+     */
+    public function showLogin()
+    {
+        return view('admin.login');
+    }
+
+    // ====================================================
+    // ADMIN DASHBOARD & MANAGE PENGADUAN
+    // ====================================================
+
+    /**
+     * Menampilkan halaman utama admin (command center/beranda)
+     * Menampilkan statistik pengaduan untuk dashboard overview
+     */
     public function home()
     {
         // Menghitung jumlah laporan masuk untuk ditampilkan di Beranda
@@ -52,33 +69,44 @@ class PengaduanController extends Controller
         return view('admin.dashboard', compact('pengaduans'));
     }
 
-    // Proses Login Admin
+    /**
+     * Proses Login Admin
+     * 
+     * Method ini menangani autentikasi user dengan mengikuti best practice Laravel:
+     * - Validasi input dengan rule yang ketat
+     * - Menggunakan Auth::attempt() untuk autentikasi yang aman
+     * - Session regeneration untuk mencegah session fixation attack
+     * - Redirect ke intended page atau dashboard
+     */
     public function loginPost(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        // Validasi input dengan rule yang lebih ketat
+        $validated = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+        ], [
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Format email tidak valid',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 6 karakter',
         ]);
 
-        $user = \App\Models\User::where('email', $credentials['email'])->first();
-
-        try {
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
-                return redirect()->route('admin.home');
-            }
-        } catch (\RuntimeException $e) {
-            if ($user && $user->password === $credentials['password']) {
-                $user->password = Hash::make($credentials['password']);
-                $user->save();
-
-                Auth::login($user);
-                $request->session()->regenerate();
-                return redirect()->route('admin.home');
-            }
+        // Attempt autentikasi dengan kredensial yang sudah divalidasi
+        // Menggunakan Auth::attempt() adalah cara standard dan aman di Laravel
+        if (Auth::attempt($validated, remember: false)) {
+            // Regenerate session ID untuk mencegah session fixation attack
+            $request->session()->regenerate();
+            
+            // Redirect ke intended page (halaman yang sebelumnya diminta)
+            // atau default ke admin.home jika tidak ada intended page
+            return redirect()->intended(route('admin.home'));
         }
 
-        return back()->withErrors(['login' => 'Email atau password salah!'])->onlyInput('email');
+        // Jika autentikasi gagal, kembalikan ke form dengan error message
+        // Gunakan 'email' sebagai key error untuk menampilkan di form
+        return back()
+            ->withErrors(['email' => 'Email atau password salah.'])
+            ->onlyInput('email');
     }
 
     public function logout()
