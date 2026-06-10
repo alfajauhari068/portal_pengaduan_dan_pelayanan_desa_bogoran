@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Thu, 01 Jan 1970 00:00:00 GMT">
     <title>Login - Desa Bogoran</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -28,20 +31,22 @@
         </div>
         @endif
 
-        <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
+        <form action="{{ route('login.post') }}" method="POST" class="space-y-4" id="loginForm" autocomplete="on">
             @csrf
             <div>
                 <label class="text-white text-sm">Alamat Email</label>
-                <input type="email" name="email" required
-                    class="w-full mt-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-[#6dc26d] outline-none">
+                <input type="email" name="email" required autocomplete="email"
+                    class="w-full mt-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-[#6dc26d] outline-none text-base"
+                    placeholder="admin@bogoran.id">
             </div>
             <div>
                 <label class="text-white text-sm">Kata Sandi</label>
-                <input type="password" name="password" required
-                    class="w-full mt-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-[#6dc26d] outline-none">
+                <input type="password" name="password" required autocomplete="current-password"
+                    class="w-full mt-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-[#6dc26d] outline-none text-base">
             </div>
             <button type="submit"
-                class="w-full bg-[#6dc282] hover:bg-[#35cc3d] text-white font-bold py-3 rounded-lg mt-4 transition">
+                class="w-full bg-[#6dc282] hover:bg-[#35cc3d] text-white font-bold py-3 rounded-lg mt-4 transition active:scale-95 cursor-pointer text-base"
+                id="loginBtn">
                 Masuk
             </button>
         </form>

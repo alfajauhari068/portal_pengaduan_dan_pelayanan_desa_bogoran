@@ -109,10 +109,36 @@ class PengaduanController extends Controller
             ->onlyInput('email');
     }
 
-    public function logout()
+    /**
+     * Proses Logout Admin
+     * 
+     * Best practice logout untuk mencegah session hijacking dan cache issues:
+     * - Invalidate session ID dengan invalidate()
+     * - Flush semua session data
+     * - Regenerate CSRF token
+     * - Set no-cache headers untuk mencegah browser cache (terutama mobile)
+     * - Delete session cookie explicitly
+     */
+    public function logout(Request $request)
     {
-        Auth::logout();
-        return redirect()->route('login');
+        // Guard dan logout user
+        Auth::guard('web')->logout();
+        
+        // Invalidate session - menghancurkan session ID saat ini
+        $request->session()->invalidate();
+        
+        // Regenerate CSRF token untuk prevent CSRF attacks
+        $request->session()->regenerateToken();
+        
+        // Flush semua session data - pastikan tidak ada data tertinggal
+        $request->session()->flush();
+        
+        // Return response dengan no-cache headers
+        return redirect('/login')
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, private')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Thu, 01 Jan 1970 00:00:00 GMT')
+            ->with('message', 'Logout berhasil. Anda telah keluar dari sistem.');
     }
 
     // Fungsi untuk Update Status

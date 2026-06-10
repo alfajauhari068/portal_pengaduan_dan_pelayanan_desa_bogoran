@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Thu, 01 Jan 1970 00:00:00 GMT">
     <title>Beranda Admin - Desa Bogoran</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -26,10 +29,11 @@
         <div class="flex items-center gap-6">
             <a href="/" target="_blank" class="text-sm text-gray-500 hover:text-[#24b44f] font-semibold">Lihat Web Desa
                 ↗</a>
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST" class="inline" id="logoutForm">
                 @csrf
                 <button type="submit"
-                    class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">Logout</button>
+                    class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-sm font-bold transition cursor-pointer active:scale-95"
+                    id="logoutBtn">Logout</button>
             </form>
         </div>
     </nav>
