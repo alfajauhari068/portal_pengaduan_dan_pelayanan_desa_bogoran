@@ -70,10 +70,12 @@
                     </ul>
                 </nav>
 
-                <a href="{{ route('login') }}"
-                    class="bg-[#c26d88] hover:bg-[#a85973] text-white px-5 py-2 rounded-lg text-sm font-bold transition shadow-lg">
-                    Login
-                </a>
+                <form action="{{ route('login') }}" method="GET" class="inline">
+                    <button type="submit"
+                        class="bg-[#c26d88] hover:bg-[#a85973] text-white px-5 py-2 rounded-lg text-sm font-bold transition shadow-lg cursor-pointer active:scale-95">
+                        Login
+                    </button>
+                </form>
             </div>
 
             <button id="hamburger"
@@ -95,10 +97,12 @@
                 @include('partials.nav-links')
 
                 <div class="pt-6 border-t border-white/20 mt-4">
-                    <a href="{{ route('login') }}"
-                        class="block text-center bg-[#c26d88] hover:bg-[#a85973] text-white py-3 rounded-lg font-bold transition">
-                        Login Admin
-                    </a>
+                    <form action="{{ route('login') }}" method="GET" class="w-full">
+                        <button type="submit"
+                            class="w-full block text-center bg-[#c26d88] hover:bg-[#a85973] text-white py-3 rounded-lg font-bold transition cursor-pointer active:scale-95">
+                            Login Admin
+                        </button>
+                    </form>
                 </div>
             </ul>
         </div>
